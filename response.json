@@ -1,0 +1,188 @@
+{
+  "customers" : [
+      {
+          "id": "CUST-0001",
+          "created_date": "2018-05-12",
+          "email": "yoda@example.com",
+          "name": "Yoda"
+      },
+      {
+          "id": "CUST-0002",
+          "created_date": "2018-09-23",
+          "email": "spock@example.com",
+          "name": "Spock"
+      },
+      {
+          "id": "CUST-0003",
+          "created_date": "2019-03-30",
+          "email": "thedoctor@example.com",
+          "name": "Doctor Who"
+      },
+      {
+          "id": "CUST-0004",
+          "created_date": "2019-04-03",
+          "email": "frodo@example.com",
+          "name": "Frodo"
+      },
+      {
+          "id": "CUST-0005",
+          "created_date": "2019-04-21",
+          "email": "hpotter@example.com",
+          "name": "Harry Potter"
+      },
+      {
+          "id": "CUST-0006",
+          "created_date": "2019-12-12",
+          "email": "tanderson@example.com",
+          "name": "Neo"
+      }
+  ],
+  "orders": [
+      {
+          "id": "ORDER-0001",
+          "customer_id": "CUST-0001",
+          "created_date": "2018-05-12",
+          "fulfilled_date": "2018-05-15",
+          "items": [
+              {
+                  "name": "ITEM-0294",
+                  "price": 100.00
+              },
+              {
+                  "name": "ITEM-0145",
+                  "price": 100.00
+              }
+          ],
+          "total_price": 200.00
+      },
+      {
+          "id": "ORDER-0002",
+          "customer_id": "CUST-0002",
+          "created_date": "2018-09-23",
+          "fulfilled_date": "2018-09-27",
+          "items": [
+              {
+                  "name": "ITEM-0025",
+                  "price": 50.00
+              },
+              {
+                  "name": "ITEM-0027",
+                  "price": 25.00
+              }
+          ],
+          "total_price": 75.00
+      },
+      {
+          "id": "ORDER-0003",
+          "customer_id": "CUST-0001",
+          "created_date": "2019-02-14",
+          "fulfilled_date": "2019-02-18",
+          "items": [
+              {
+                  "name": "ITEM-0389",
+                  "price": 100.00
+              }
+          ],
+          "total_price": 100.00
+      },
+      {
+          "id": "ORDER-0004",
+          "customer_id": "CUST-0003",
+          "created_date": "2019-03-30",
+          "fulfilled_date": "2019-04-04",
+          "items": [
+              {
+                  "name": "ITEM-0002",
+                  "price": 400.00
+              },
+              {
+                  "name": "ITEM-0389",
+                  "price": 100.00
+              }
+          ],
+          "total_price": 500.00
+      },
+      {
+          "id": "ORDER-0005",
+          "customer_id": "CUST-0005",
+          "created_date": "2019-04-21",
+          "fulfilled_date": "2019-04-22",
+          "items": [
+              {
+                  "name": "ITEM-0089",
+                  "price": 20.00
+              }
+          ],
+          "total_price": 20.00
+      },
+      {
+          "id": "ORDER-0006",
+          "customer_id": "CUST-0002",
+          "created_date": "2019-05-01",
+          "fulfilled_date": "2019-05-08",
+          "items": [
+              {
+                  "name": "ITEM-0003",
+                  "price": 50.00
+              }
+          ],
+          "total_price": 50.00
+      },
+      {
+          "id": "ORDER-0007",
+          "customer_id": "CUST-0005",
+          "created_date": "2019-09-13",
+          "fulfilled_date": "2019-09-15",
+          "items": [
+              {
+                  "name": "ITEM-0092",
+                  "price": 20.00
+              },
+              {
+                  "name": "ITEM-0093",
+                  "price": 20.00
+              }
+          ],
+          "total_price": 40.00
+      },
+      {
+          "id": "ORDER-0008",
+          "customer_id": "CUST-0006",
+          "created_date": "2019-12-12",
+          "fulfilled_date": "2020-01-05",
+          "items": [
+              {
+                  "name": "ITEM-0312",
+                  "price": 50.00
+              }
+          ],
+          "total_price": 50.00
+      },
+      {
+          "id": "ORDER-0009",
+          "customer_id": "CUST-0001",
+          "created_date": "2019-12-13",
+          "fulfilled_date": "2020-01-11",
+          "items": [
+              {
+                  "name": "ITEM-0212",
+                  "price": 100.00
+              }
+          ],
+          "total_price": 100.00
+      },
+      {
+          "id": "ORDER-0010",
+          "customer_id": "CUST-0006",
+          "created_date": "2020-01-03",
+          "fulfilled_date": "2020-01-15",
+          "items": [
+              {
+                  "name": "ITEM-0077",
+                  "price": 20.00
+              }
+          ],
+          "total_price": 20.00
+      }
+  ]
+}
