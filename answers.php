@@ -4,10 +4,22 @@
   require_once("includes/classes/customer.php");
   require_once("includes/classes/orders.php");
 
+  echo(" 
+  _____                           _        _____                            
+ |  __ \                         | |      / ____|                           
+ | |__) |___  ___  ___  __ _  ___| |__   | (___   __ _ _   _  __ _ _ __ ___ 
+ |  _  // _ \/ __|/ _ \/ _` |/ __| '_ \   \___ \ / _` | | | |/ _` | '__/ _ \
+ | | \ \  __/\__ \  __/ (_| | (__| | | |  ____) | (_| | |_| | (_| | | |  __/
+ |_|  \_\___||___/\___|\__,_|\___|_| |_| |_____/ \__, |\__,_|\__,_|_|  \___|
+                                                    | |                     
+                                                    |_|                    \r\n\r\n");
+
+  echo("Config.php is located in ./includes. Defaults are Set.\r\n\r\n");                                              
+
   $config = Config::getInstance();
   $customers = [];
   $orders = [];
-  $response = json_decode(file_get_contents('response.json'), true);
+  $response = json_decode(file_get_contents($config->getResourceUrl()), true);
 
   foreach($response['customers'] as $customerResponse) {
     $customer = new CustomerV1();
@@ -41,8 +53,8 @@
   //
   ///////////////////////////////////////////////////////////////////////////////
 
-  // usort($orders, "TotalPriceCompare");
-  // echo($orders[0]->getTotalPrice());
+  usort($orders, "TotalPriceCompare");
+  echo(" - Most expensive order = {$orders[0]->getTotalPrice()} \r\n");
 
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -62,15 +74,18 @@
   //
   ///////////////////////////////////////////////////////////////////////////////
 
-  // $currentYear = new DateTime();
+  $currentYear = new DateTime();
 
-  // // Move back to 2020. See example and test oringation date.
-  // $currentYear->sub(new \DateInterval('P1Y'));
+  // Move back to 2020. See example and test origination date.
+  $currentYear->sub(new \DateInterval('P1Y'));
 
-  // for($i=0; $i < $config->getYearsToGoBack(); $i++) {
-  //   echo(GetTotalOrdersFromYear($currentYear, ...$orders) . "\r\n");
-  //   $currentYear->sub(new \DateInterval('P1Y'));
-  // }
+  for($i=0; $i < $config->getYearsToGoBack(); $i++) {
+    $strCurrYr = $currentYear->format('Y');
+    $totalYrOrders = GetTotalOrdersFromYear($currentYear, ...$orders);
+    echo(" - Total price of orders in {$strCurrYr} = {$totalYrOrders} \r\n");
+
+    $currentYear->sub(new \DateInterval('P1Y'));
+  }
 
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -99,7 +114,7 @@
     }
   }
 
-  $msg = $topCustomer ? "Customer with the most orders = [{$topCustomer->getId()}] {$topCustomer->getName()}" : 'Error.';
+  $msg = $topCustomer ? " - Customer with the most orders = [{$topCustomer->getId()}] {$topCustomer->getName()}" : 'Error.';
 
   echo($msg);
 

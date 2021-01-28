@@ -3,15 +3,55 @@
   require_once('includes/interfaces/iOrder.php');
   require_once('includes/classes/orderItem.php');
 
+
+  /**
+     * Version 1
+     *  Order
+     *
+     * @author  Derek Bringewatt
+     * @license MIT
+     */
   class OrderV1 implements iOrder
   {
+    /**
+     * @var string
+     */
     private $id;
+
+    /**
+     * @var string
+     */
     private $customer_id;
+
+    /**
+     * @var DateTime
+     */
     private $created_date;
+
+    /**
+     * @var DateTime
+     */
     private $fulfilled_date;
+
+    /**
+     * @var array
+     */
     private $items;
+
+    /**
+     * @var float
+     */
     private $total_price;
 
+
+    /**
+     * Constructor
+     *
+     * Initialize with some default values
+     * 
+     *
+     *
+     */
     public function __construct() {
         $this->customer_id = '';
         $this->created_date = new DateTime();
@@ -21,48 +61,105 @@
     }
 
 
-    public function getId(): String {
+    /**
+     * Getter for ID
+     *
+     *
+     * @return string
+     */
+    public function getId(): string {
       return $this->id;
     }
 
 
-    public function setId(String $newId): void {
+    /**
+     * Setter for ID
+     *
+     *
+     * @param  string $newId The new ID 
+     * @return void
+     */
+    public function setId(string $newId): void {
       $this->id = $newId;
     }
 
 
-    public function getCustomerId(): String {
+    /**
+     * Getter for customer ID
+     *
+     *
+     * @return string
+     */
+    public function getCustomerId(): string {
       return $this->customer_id;
     }
 
 
-    public function setCustomerId(String $newCustomerId): void {
+    /**
+     * Setter for customer ID
+     *
+     *
+     * @param  string $newId The new  customer ID 
+     * @return void
+     */
+    public function setCustomerId(string $newCustomerId): void {
       $this->customer_id = $newCustomerId;
     }
     
 
+    /**
+     * Getter for created date
+     *
+     *
+     * @return DateTime
+     */
     public function getCreatedDate(): DateTime {
       return $this->created_date;
     }
 
 
+    /**
+     * Getter for fulfilled date
+     *
+     *
+     * @return DateTime
+     */
     public function getFulfilledDate(): DateTime {
       return $this->fulfilled_date;
     }
 
 
+    /**
+     * Getter for Items of the order
+     *
+     *
+     * @return array
+     */
     public function getItems(): array {
       return $this->items;
     }
 
 
+    /**
+     * Getter for total price of order
+     * 
+     *
+     * @return string
+     */
     public function getTotalPrice(): float {
       return $this->total_price;
     }
 
 
+    /**
+     * Populate a order item with the response from a API.
+     *
+     * Only returns true if its a complelety valid object. Bad data in = bad data out. 
+     * 
+     * @param  array $jsonObject A array instead of a object from a API response. Set true in   the file get contents args. 
+     * @return bool
+     */
     public function loadFromJson(array $jsonObject): bool {
-      // Must have a valid json response to make valid Order object
       try {
         $this->id = $jsonObject['id'];
         $this->customer_id = $jsonObject['customer_id'];

@@ -2,14 +2,43 @@
   declare(strict_types=1);
   require_once('includes/interfaces/iCustomer.php');
 
+
+  /**
+   *  Version 1 
+   *  Customer
+   *   
+   *
+   * @author  Derek Bringewatt
+   * @license MIT 
+   */
   class CustomerV1 implements iCustomer
   {
+    /**
+     * @var string
+     */
     private $id;
+
+    /**
+     * @var DateTime
+     */
     private $created_date;
+
+    /**
+     * @var string
+     */
     private $email;
+
+    /**
+     * @var string
+     */
     private $name;
 
 
+    /**
+     * Constructor
+     *
+     * Initiliaze with default values
+     */
     public function __construct() {
         $this->id = '';
         $this->created_date = new DateTime();
@@ -18,43 +47,98 @@
     }
 
 
-    public function getId(): String {
+    /**
+     * Getter for ID
+     *
+     *
+     * 
+     *
+     * @return string
+     */
+    public function getId(): string {
       return $this->id;
     }
 
-
-    public function setId(String $newId): void {
+    /**
+     * Setter for ID
+     *
+     *
+     * 
+     * @param  string $newId The new ID 
+     * @return void
+     */
+    public function setId(string $newId): void {
       $this->id = $newId;
     }
 
 
+    /**
+     * Getter for ID
+     *
+     *
+     * @return string
+     */
     public function getCreatedDate(): DateTime {
       return $this->created_date;
     }
 
 
-    public function getEmail(): String {
+    /**
+     * Getter for ID
+     *
+     * 
+     * @return string
+     */
+    public function getEmail(): string {
       return $this->email;
     }
 
 
-    public function setEmail(String $newEmail): void {
+    /**
+     * Setter for email
+     *
+     *
+     * @param  string $newEmail The new email address
+     * @return void
+     */
+    public function setEmail(string $newEmail): void {
       $this->email = $newEmail;
     }
 
 
-    public function getName(): String {
+    /**
+     * Getter for ID
+     *
+     *
+     * @return string
+     */
+    public function getName(): string {
       return $this->name;
     }
 
 
-    public function setName(String $newName): void {
+    /**
+     * Setter for namme
+     *
+     *
+     * @param  string $newName The new name value
+     * @return void
+     */
+    public function setName(string $newName): void {
       $this->name = $newName;
     }
 
 
+    /**
+     * Populate a customer item with the response from a API.
+     *
+     * Only returns true if its a complelety valid object. Bad data in =
+     *  bad data out. 
+     * 
+     * @param  array $jsonObject A array from a API response. Set true in   the file get contents args. 
+     * @return bool
+     */
     public function loadFromJson(array $jsonObject): bool {
-      // Must have a valid json response for a valid customer object
       try {
         $this->id = $jsonObject['id'];
         $this->created_date = $this->created_date->createFromFormat('Y-m-d', $jsonObject['created_date']);
@@ -68,6 +152,16 @@
       }
     }
 
+
+    /**
+     * Get the orders associated with this customer
+     *
+     *  Give the order array you would like use, whether it would be 
+     *  all the orders or a array of filtered orders.
+     * 
+     * @param  iOrder $orders A array of IOrder items
+     * @return array
+     */
     public function getOrders(iOrder ...$orders): array 
     {
       $customerOrders = [];
@@ -83,6 +177,16 @@
       return $customerOrders;
     }
 
+
+    /**
+     * Calculate the total amount of purchase associated with this customer.
+     *
+     *  Give the order array you would like use, whether it would be 
+     *  all the orders or a array of filtered orders.
+     * 
+     * @param  iOrder $orders A Array of iOrder items
+     * @return float
+     */
     public function getTotalPurchasesAmount(iOrder ...$orders): float {
       $allOrders = $this->getOrders(...$orders);
       $total = 0.00;
