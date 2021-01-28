@@ -5,8 +5,23 @@
   require_once("includes/classes/orders.php");
 
   $config = Config::getInstance();
-
+  $customers = [];
+  $orders = [];
   $response = json_decode(file_get_contents('response.json'), true);
+
+  foreach($response['customers'] as $customerResponse) {
+    $customer = new CustomerV1();
+    if ($customer->loadFromJson($customerResponse)) {
+      array_push($customers, $customer);
+    }
+  }
+
+  foreach($response['orders'] as $orderResponse) {
+    $order = new OrderV1;
+    if ($order->loadFromJson($orderResponse)) {
+      array_push($orders, $order);
+    }
+  }
 
   ///////////////////////////////////////////////////////////////////////////////
   //

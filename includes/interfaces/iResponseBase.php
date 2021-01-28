@@ -2,7 +2,12 @@
 
   interface iResponseBase
   {
-    public function loadFromJson(stdObj $jsonObject): boolean;
+    // private $id;
+    
+    public function getId(): String;
+    public function setId(String $newId): void;
+
+    public function loadFromJson(array $jsonObject): bool;
   }
 
 ?>
