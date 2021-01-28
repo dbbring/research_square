@@ -68,9 +68,30 @@
       }
     }
 
-    public function getCustomerOrders(iOrder ...$orders): array 
+    public function getOrders(iOrder ...$orders): array 
     {
+      $customerOrders = [];
 
+      foreach($orders as $order) {
+        $isCustomerOrder = strcmp($this->id, $order->getCustomerId());
+
+        if ($isCustomerOrder === 0) {
+          array_push($customerOrders, $order);
+        }
+      }
+
+      return $customerOrders;
+    }
+
+    public function getTotalPurchasesAmount(iOrder ...$orders): float {
+      $allOrders = $this->getOrders(...$orders);
+      $total = 0.00;
+
+      foreach($allOrders as $order) {
+        $total += $order->getTotalPrice();
+      }
+
+      return $total;
     }
   }
 ?>

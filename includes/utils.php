@@ -3,7 +3,6 @@
   require_once('includes/interfaces/iOrder.php');
 
 
-
   function GetTotalOrdersFromYear(DateTime $year, iOrder ...$orders): float
   {
     usort($orders, "DateCompare");
@@ -11,14 +10,13 @@
 
     foreach ($orders as $order) {
       $sameYear = strcmp($order->getCreatedDate()->format('Y'), $year->format('Y'));
-      
+
       if ($sameYear === 0) {
        $total += $order->getTotalPrice();
       }
     }
     return $total;
   }
-
 
 
   // ================ Sorting functions =============================

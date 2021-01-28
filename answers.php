@@ -9,8 +9,6 @@
   $orders = [];
   $response = json_decode(file_get_contents('response.json'), true);
 
-  const YEARS_TO_GO_BACK  = 3;
-
   foreach($response['customers'] as $customerResponse) {
     $customer = new CustomerV1();
     if ($customer->loadFromJson($customerResponse)) {
@@ -64,15 +62,15 @@
   //
   ///////////////////////////////////////////////////////////////////////////////
 
-  $currentYear = new DateTime();
+  // $currentYear = new DateTime();
 
-  // Move back to 2020. See example and test oringation date.
-  $currentYear->sub(new \DateInterval('P1Y'));
+  // // Move back to 2020. See example and test oringation date.
+  // $currentYear->sub(new \DateInterval('P1Y'));
 
-  for($i=0; $i < YEARS_TO_GO_BACK; $i++) {
-    echo(GetTotalOrdersFromYear($currentYear, ...$orders) . "\r\n");
-    $currentYear->sub(new \DateInterval('P1Y'));
-  }
+  // for($i=0; $i < $config->getYearsToGoBack(); $i++) {
+  //   echo(GetTotalOrdersFromYear($currentYear, ...$orders) . "\r\n");
+  //   $currentYear->sub(new \DateInterval('P1Y'));
+  // }
 
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -90,5 +88,19 @@
   //
   ///////////////////////////////////////////////////////////////////////////////
 
+  $totalOrderAmt = 0.00;
+  $topCustomer = null;
+
+  foreach ($customers as $customer) {
+    $totalCustOrderAmt = $customer->getTotalPurchasesAmount(...$orders);
+    if ($totalOrderAmt < $totalCustOrderAmt) {
+      $totalOrderAmt = $totalCustOrderAmt;
+      $topCustomer = $customer;
+    }
+  }
+
+  $msg = $topCustomer ? "Customer with the most orders = [{$topCustomer->getId()}] {$topCustomer->getName()}" : 'Error.';
+
+  echo($msg);
 
 ?>
