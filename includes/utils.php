@@ -26,6 +26,20 @@
     return $total;
   }
 
+  /**
+   * Method for trying to sanitize unknown inputs
+   *
+   * 
+   *
+   * @param  string $dirtyStr A string that came from a untrusted source.
+   * @return string
+   */
+  function SanitizeStr(string $dirtyStr): string
+  {
+    $cleanStr = htmlspecialchars(strip_tags($dirtyStr));
+    return $cleanStr;
+  }
+
 
   // ================ Sorting functions =============================
 

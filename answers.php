@@ -23,17 +23,38 @@
 
   foreach($response['customers'] as $customerResponse) {
     $customer = new CustomerV1();
-    if ($customer->loadFromJson($customerResponse)) {
-      array_push($customers, $customer);
+    try {
+      if ($customer->loadFromJson($customerResponse)) {
+        array_push($customers, $customer);
+      }
+    } catch (Exception $ex) {
+      echo(' ----- Error adding a customer to array.');
     }
   }
 
   foreach($response['orders'] as $orderResponse) {
     $order = new OrderV1;
-    if ($order->loadFromJson($orderResponse)) {
-      array_push($orders, $order);
+    try {
+      if ($order->loadFromJson($orderResponse)) {
+        array_push($orders, $order);
+      }
+    } catch (Exception $ex) {
+      echo(' ----- Error adding a order to array.');
     }
   }
+
+  // Validate data before trying to use it later
+  if (empty($orders)) {
+    echo(' ------ No orders are available.');
+    return;
+  }
+
+  if (empty($customers)) {
+    echo(' ------ No customers are available.');
+    return;
+  }
+
+
 
   ///////////////////////////////////////////////////////////////////////////////
   //
@@ -54,7 +75,8 @@
   ///////////////////////////////////////////////////////////////////////////////
 
   usort($orders, "TotalPriceCompare");
-  echo(" - Most expensive order = {$orders[0]->getTotalPrice()} \r\n");
+  $highestOrder =  number_format($orders[0]->getTotalPrice(), 2, '.', ',');
+  echo(" - Most expensive order = \${$highestOrder} \r\n");
 
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -80,9 +102,14 @@
   $currentYear->sub(new \DateInterval('P1Y'));
 
   for($i=0; $i < $config->getYearsToGoBack(); $i++) {
-    $strCurrYr = $currentYear->format('Y');
-    $totalYrOrders = GetTotalOrdersFromYear($currentYear, ...$orders);
-    echo(" - Total price of orders in {$strCurrYr} = {$totalYrOrders} \r\n");
+    try {
+      $strCurrYr = $currentYear->format('Y');
+      $totalYrOrders = GetTotalOrdersFromYear($currentYear, ...$orders);
+      $totalYrOrders = number_format($totalYrOrders, 2, '.', ',');
+      echo(" - Total price of orders in {$strCurrYr} = \${$totalYrOrders} \r\n");
+    } catch (Exception $ex) {
+      echo("Error calculating total orders for {$strCurrYr}");
+    }
 
     $currentYear->sub(new \DateInterval('P1Y'));
   }
@@ -107,11 +134,16 @@
   $topCustomer = null;
 
   foreach ($customers as $customer) {
-    $totalCustOrderAmt = $customer->getTotalPurchasesAmount(...$orders);
-    if ($totalOrderAmt < $totalCustOrderAmt) {
-      $totalOrderAmt = $totalCustOrderAmt;
-      $topCustomer = $customer;
+    try {
+      $totalCustOrderAmt = $customer->getTotalPurchasesAmount(...$orders);
+      if ($totalOrderAmt < $totalCustOrderAmt) {
+        $totalOrderAmt = $totalCustOrderAmt;
+        $topCustomer = $customer;
+      }
+    } catch (Exception $ex) {
+      echo("Error checking total purchases for {$customer->getName()}");
     }
+
   }
 
   $msg = $topCustomer ? " - Customer with the most orders = [{$topCustomer->getId()}] {$topCustomer->getName()}" : 'Error.';

@@ -1,6 +1,7 @@
 <?php
   declare(strict_types=1);
   require_once('includes/interfaces/iCustomer.php');
+  require_once('includes/utils.php');
 
 
   /**
@@ -133,17 +134,18 @@
      * Populate a customer item with the response from a API.
      *
      * Only returns true if its a complelety valid object. Bad data in =
-     *  bad data out. 
+     *  bad data out. Using a 1 : 1 ratio incase we encounter additional 
+     *  fields, we dont want to carry them forward and pollute things.
      * 
      * @param  array $jsonObject A array from a API response. Set true in   the file get contents args. 
      * @return bool
      */
     public function loadFromJson(array $jsonObject): bool {
       try {
-        $this->id = $jsonObject['id'];
+        $this->id = SanitizeStr($jsonObject['id']);
         $this->created_date = $this->created_date->createFromFormat('Y-m-d', $jsonObject['created_date']);
-        $this->email = $jsonObject['email'];
-        $this->name = $jsonObject['name'];
+        $this->email = SanitizeStr($jsonObject['email']);
+        $this->name = SanitizeStr($jsonObject['name']);
 
         // Other validating logic here
         return TRUE;
