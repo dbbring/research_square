@@ -9,6 +9,8 @@
   $orders = [];
   $response = json_decode(file_get_contents('response.json'), true);
 
+  const YEARS_TO_GO_BACK  = 3;
+
   foreach($response['customers'] as $customerResponse) {
     $customer = new CustomerV1();
     if ($customer->loadFromJson($customerResponse)) {
@@ -41,8 +43,8 @@
   //
   ///////////////////////////////////////////////////////////////////////////////
 
-  usort($orders, "TotalPriceCompare");
-  echo($orders[0]->getTotalPrice());
+  // usort($orders, "TotalPriceCompare");
+  // echo($orders[0]->getTotalPrice());
 
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -61,6 +63,17 @@
   //   Total price of orders in 2020 =  20.00
   //
   ///////////////////////////////////////////////////////////////////////////////
+
+  $currentYear = new DateTime();
+
+  // Move back to 2020. See example and test oringation date.
+  $currentYear->sub(new \DateInterval('P1Y'));
+
+  for($i=0; $i < YEARS_TO_GO_BACK; $i++) {
+    echo(GetTotalOrdersFromYear($currentYear, ...$orders) . "\r\n");
+    $currentYear->sub(new \DateInterval('P1Y'));
+  }
+
 
   ///////////////////////////////////////////////////////////////////////////////
   //
